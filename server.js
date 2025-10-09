@@ -11,7 +11,7 @@ dotenv.config()
 
 
 
-const port = process.env.PORT
+const port = process.env.PORT || 2000
 app.use(cors({
   origin :process.env.FRONTEND_URI,
   credentials:true
