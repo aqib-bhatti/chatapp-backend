@@ -11,7 +11,7 @@ dotenv.config()
 
 
 
-const port = process.env.PORT || 2000
+
 app.use(cors({
   origin :process.env.FRONTEND_URI,
   credentials:true
@@ -23,7 +23,9 @@ app.use(cookieParser());
 app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes)
 app.use("/api/groups",groupRoutes)
-server.listen(port, () => {
-  console.log("server is running on port 2000");
-  connectDB()
+const PORT = process.env.PORT || 2000;
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  connectDB();
 });
