@@ -7,6 +7,7 @@ import groupRoutes from "./routers/groupRoutes.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import { app, server } from "./lib/socket.js";
+
 dotenv.config();
 
 app.use(
@@ -22,9 +23,19 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupRoutes);
+
 const PORT = process.env.PORT || 8080;
 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  connectDB();
-});
+async function startServer() {
+  try {
+    await connectDB();  // Connect to MongoDB first
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);  // Only exit if DB connection fails
+  }
+}
+
+startServer();
